@@ -2,6 +2,7 @@
 using Azure;
 using Microsoft.EntityFrameworkCore;
 using WebApiAuditoria.Data;
+using WebApiAuditoria.Dto.Login;
 using WebApiAuditoria.Dto.Usuario;
 using WebApiAuditoria.Models;
 using WebApiAuditoria.Services.Senha;
@@ -73,6 +74,8 @@ namespace WebApiAuditoria.Services.Usuario
                 UsuarioModel usuario = _mapper.Map<UsuarioModel>(usuarioDto);
                 usuario.SenhaHash = senhaHash;
                 usuario.SenhaSalt = senhaSalt;
+                usuario.DataCriacao = DateTime.Now;
+                usuario.DataAlteracao = DateTime.Now;
 
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
@@ -134,6 +137,42 @@ namespace WebApiAuditoria.Services.Usuario
             catch (Exception ex)
             {
                 response.Mensagem = $"Erro ao listar usuários: {ex.Message}";
+                response.Status = false;
+                return response;
+            }
+        }
+
+        public async Task<ResponseModel<UsuarioModel>> LoginUsuario(UsuarioLoginDto usuarioLoginDto)
+        {
+            ResponseModel<UsuarioModel> response = new ResponseModel<UsuarioModel>();
+            try
+            {
+              var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuarioLoginDto.Email);
+                if (usuario == null)
+                {
+                    response.Status = false;
+                    response.Mensagem = "Usuário não encontrado.";
+                    return response;
+                }
+                if (!_senhaInterface.VerificarSenha(usuarioLoginDto.Senha, usuario.SenhaHash, usuario.SenhaSalt))
+                {
+                    response.Status = false;
+                    response.Mensagem = "Senha incorreta.";
+                    return response;
+                }
+                var token = _senhaInterface.GerarToken(usuario);
+                usuario.Token = token;
+                _context.Usuarios.Update(usuario);
+                await _context.SaveChangesAsync();
+
+                response.Dados = usuario;
+                response.Mensagem = "Usuário logado com sucesso.";
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Mensagem = ex.Message;
                 response.Status = false;
                 return response;
             }

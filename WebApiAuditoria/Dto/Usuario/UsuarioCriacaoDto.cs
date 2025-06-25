@@ -12,8 +12,6 @@ namespace WebApiAuditoria.Dto.Usuario
         public string Sobrenome { get; set; }
         [Required(ErrorMessage = "O campo Email é obrigatório.")]
         public string Email { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataAlteracao { get; set; }
         [Required(ErrorMessage = "Digite sua Senha")]
         public string Senha { get; set; }
         [Required(ErrorMessage = "Digite a Confirmação de Senha."), Compare("Senha", ErrorMessage = "As senhas não são iguais")]
