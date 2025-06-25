@@ -9,7 +9,7 @@ namespace WebApiAuditoria.Data
         {
         }
 
-        DbSet<UsuarioModel> Usuarios { get; set; }
+        public DbSet<UsuarioModel> Usuarios { get; set; }
     }
   
 }
