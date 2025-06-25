@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApiAuditoria.Models;
 
 namespace WebApiAuditoria.Data
 {
@@ -8,6 +9,7 @@ namespace WebApiAuditoria.Data
         {
         }
 
+        DbSet<UsuarioModel> Usuarios { get; set; }
     }
   
 }
