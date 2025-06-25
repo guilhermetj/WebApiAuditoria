@@ -23,9 +23,29 @@ namespace WebApiAuditoria.Services.Usuario
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<bool>> DeletarUsuario(int id)
+        public async Task<ResponseModel<bool>> DeletarUsuario(int id)
         {
-            throw new NotImplementedException();
+            ResponseModel<bool> response = new ResponseModel<bool>();
+            try
+            {
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario == null)
+                {
+                    response.Status = false;
+                    response.Mensagem = "Usuário não encontrado.";
+                    return response;
+                }
+                _context.Usuarios.Remove(usuario);
+                await _context.SaveChangesAsync();
+                response.Mensagem = $"Usuário {usuario.Nome} {usuario.Sobrenome} deletado com sucesso";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Mensagem = $"Erro ao Deletar usuários: {ex.Message}";
+                response.Status = false;
+                return response;
+            }
         }
 
         public async Task<ResponseModel<List<UsuarioModel>>> ListarUsuarios()

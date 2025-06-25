@@ -34,5 +34,16 @@ namespace WebApiAuditoria.Controllers
             }
             return Ok(response);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletarUsuario(int id)
+        {
+            var response = await _usuarioService.DeletarUsuario(id);
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
     }
 }
