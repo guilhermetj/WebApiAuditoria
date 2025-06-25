@@ -13,8 +13,6 @@ namespace WebApiAuditoria.Dto.Usuario
         public string Sobrenome { get; set; }
         [Required(ErrorMessage = "O campo Email é obrigatório.")]
         public string Email { get; set; }
-        public DateTime DataCriacao { get; set; }
-        public DateTime DataAlteracao { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApiAuditoria.Dto.Usuario;
 using WebApiAuditoria.Services.Usuario;
 
 namespace WebApiAuditoria.Controllers
@@ -23,7 +24,7 @@ namespace WebApiAuditoria.Controllers
             }
             return Ok(response);
         }
-         
+
         [HttpGet("{id}")]
         public async Task<IActionResult> BuscarUsuarioPeloId(int id)
         {
@@ -38,6 +39,16 @@ namespace WebApiAuditoria.Controllers
         public async Task<IActionResult> DeletarUsuario(int id)
         {
             var response = await _usuarioService.DeletarUsuario(id);
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+        [HttpPut]
+        public async Task<IActionResult> EditarUsuario(UsuarioEdicaoDto usuarioDto)
+        {
+            var response = await _usuarioService.AtualizarUsuario(usuarioDto);
             if (!response.Status)
             {
                 return BadRequest(response);

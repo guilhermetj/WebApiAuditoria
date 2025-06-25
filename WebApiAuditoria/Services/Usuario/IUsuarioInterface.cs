@@ -1,4 +1,5 @@
-﻿using WebApiAuditoria.Models;
+﻿using WebApiAuditoria.Dto.Usuario;
+using WebApiAuditoria.Models;
 
 namespace WebApiAuditoria.Services.Usuario
 {
@@ -6,8 +7,8 @@ namespace WebApiAuditoria.Services.Usuario
     {
         Task<ResponseModel<List<UsuarioModel>>> ListarUsuarios();
         Task<ResponseModel<UsuarioModel>> ObterUsuarioPorId(int id);
-        Task<ResponseModel<UsuarioModel>> CriarUsuario(UsuarioModel usuario);
-        Task<ResponseModel<UsuarioModel>> AtualizarUsuario(int id, UsuarioModel usuario);
+        Task<ResponseModel<UsuarioModel>> CriarUsuario(UsuarioCriacaoDto usuarioDto);
+        Task<ResponseModel<UsuarioModel>> AtualizarUsuario(UsuarioEdicaoDto usuarioDto);
         Task<ResponseModel<bool>> DeletarUsuario(int id);
 
     }
