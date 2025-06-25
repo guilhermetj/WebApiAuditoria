@@ -23,5 +23,16 @@ namespace WebApiAuditoria.Controllers
             }
             return Ok(response);
         }
+         
+        [HttpGet("{id}")]
+        public async Task<IActionResult> BuscarUsuarioPeloId(int id)
+        {
+            var response = await _usuarioService.ObterUsuarioPorId(id);
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
     }
 }
