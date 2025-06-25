@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApiAuditoria.Dto.Usuario;
 using WebApiAuditoria.Services.Usuario;
@@ -7,6 +8,7 @@ namespace WebApiAuditoria.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         readonly IUsuarioInterface _usuarioService;
